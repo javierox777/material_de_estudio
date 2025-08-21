@@ -1,0 +1,194 @@
+/* ===== Fondo dinámico (gradiente animado) ===== */
+.fs-page {
+    min-height: 100vh;
+    color: #e5e7eb;
+    background: radial-gradient(1200px 800px at 10% 10%, #1e293b 0%, #0f172a 40%, #0b1020 100%),
+                conic-gradient(from 120deg at 70% 30%, #1d4ed8 0%, #7c3aed 25%, #0ea5e9 50%, #22c55e 75%, #1d4ed8 100%);
+    background-blend-mode: overlay, screen;
+    animation: fsMove 22s ease-in-out infinite;
+  }
+  
+  /* Pulsado opcional */
+  .fs-pulse {
+    animation-name: fsMove, fsPulse;
+    animation-duration: 22s, 6s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+  }
+  
+  @keyframes fsMove {
+    0%   { background-position: 0% 0%, 0% 0%; }
+    50%  { background-position: 100% 50%, 60% 30%; }
+    100% { background-position: 0% 0%, 0% 0%; }
+  }
+  @keyframes fsPulse {
+    0%,100% { filter: saturate(1) brightness(1); }
+    50%     { filter: saturate(1.2) brightness(1.08); }
+  }
+  
+  /* ===== Hero ===== */
+  .fs-hero {
+    text-align: center;
+    padding: 56px 16px 24px;
+  }
+  .fs-hero__badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.06);
+    backdrop-filter: blur(8px);
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: .3px;
+  }
+  .fs-hero__title {
+    margin: 10px 0 6px;
+    font-size: clamp(22px, 3.8vw, 36px);
+    font-weight: 800;
+    text-shadow: 0 4px 30px rgba(0,0,0,.35);
+  }
+  .fs-hero__desc {
+    color: #cbd5e1;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+  .fs-hero__actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  /* ===== Contenedor ===== */
+  .fs-container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* ===== Cards (glassmorphism) ===== */
+  .fs-card {
+    border: 1px solid rgba(255,255,255,.1);
+    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .fs-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.35);
+    border-color: rgba(255,255,255,.18);
+  }
+  .fs-card--open {
+    border-color: rgba(59,130,246,.35);
+    box-shadow: 0 16px 50px rgba(37,99,235,.25);
+  }
+  
+  /* ===== Step header/body ===== */
+  .fs-step__head {
+    all: unset;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 16px;
+    cursor: pointer;
+  }
+  .fs-step__emoji { font-size: 18px; }
+  .fs-step__title { font-size: 17px; font-weight: 700; letter-spacing: .2px; }
+  .fs-step__chev { opacity: .9; }
+  
+  .fs-step__body {
+    padding: 10px 16px 18px;
+    color: #e6edf6;
+  }
+  
+  /* ===== Listas ===== */
+  .fs-ul { margin: 6px 0 10px 20px; }
+  .fs-ul li { margin: 4px 0; }
+  .fs-ol { margin: 6px 0 10px 18px; }
+  .fs-ol li { margin: 6px 0; }
+  
+  /* ===== Texto ===== */
+  .fs-note { color: #cbd5e1; font-size: 13px; margin-top: 6px; }
+  .fs-p { color: #dbeafe; }
+  
+  /* ===== Botones ===== */
+  .fs-btn {
+    border: 1px solid rgba(255,255,255,.2);
+    background: linear-gradient(180deg,#60a5fa,#2563eb);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: .2px;
+    box-shadow: 0 8px 22px rgba(37,99,235,.35);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .fs-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(37,99,235,.45); }
+  .fs-btn:active { transform: translateY(0); }
+  
+  .fs-btn--ghost {
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.06);
+    color: #e5e7eb;
+    box-shadow: none;
+  }
+  .fs-btn--ok {
+    background: linear-gradient(180deg,#34d399,#059669);
+    box-shadow: 0 8px 22px rgba(5,150,105,.35);
+  }
+  
+  /* ===== Code blocks ===== */
+  .fs-pre {
+    position: relative;
+    border: 1px solid rgba(255,255,255,.12);
+    background: #0b1220;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+  .fs-pre__label {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 12px;
+    color: #93c5fd;
+    background: rgba(147,197,253,.12);
+    padding: 2px 8px;
+    border: 1px solid rgba(147,197,253,.3);
+    border-radius: 999px;
+  }
+  .fs-pre pre {
+    margin: 0; padding: 40px 14px 14px;
+    color: #e5e7eb; font-size: 12px; line-height: 1.6;
+    overflow-x: auto;
+  }
+  .fs-pre .fs-btn {
+    position: absolute;
+    top: 8px; right: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  /* ===== Grid util ===== */
+  .fs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media (min-width: 720px) {
+    .fs-grid { grid-template-columns: 1fr 1fr; }
+  }
+  
+  /* ===== Footer ===== */
+  .fs-footer {
+    text-align: center;
+    padding: 20px 12px 40px;
+    color: #cbd5e1;
+    opacity: .9;
+  }
+  
