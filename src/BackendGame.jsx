@@ -14,6 +14,7 @@ import {
   AccumulativeShadows,
   RandomizedLight,
 } from "@react-three/drei";
+import ThemeToggleButton from "./components/ThemeToggleButton.jsx";
 
 /**
  * Servidor Node.js + Express + MongoDB (Mongoose)
@@ -720,20 +721,15 @@ export default function BackendGame() {
       {/* Header/HUD */}
       <header className="sticky top-0 z-10 backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-slate-200/60 dark:border-slate-800">
         <div className="max-w-7xl mx-auto p-3 flex items-center justify-between">
-          <h1 className="text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Server Builder • Express + MongoDB
-          </h1>
+        <h1 className="hidden md:block md:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+  Server Builder • Express + MongoDB
+</h1>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-slate-600 dark:text-slate-300">Progreso</span>
             <div className="w-36 bg-slate-200/70 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
               <div className="h-2 bg-gradient-to-r from-indigo-600 to-sky-500" style={{ width: `${progress}%` }} />
             </div>
-            <button
-              onClick={() => setDark((d) => !d)}
-              className="px-2 py-1 rounded-md border bg-white/70 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800"
-            >
-              {dark ? "☀️ Claro" : "🌙 Oscuro"}
-            </button>
+            <ThemeToggleButton />
           </div>
         </div>
       </header>

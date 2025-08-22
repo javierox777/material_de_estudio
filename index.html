@@ -1,12 +1,41 @@
+<!-- index.html -->
 <!doctype html>
-<html>
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ModelProTreeDimen</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 🔧 Sincroniza el tema ANTES de que React monte -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme.mode"); // "dark" | "light" | "system" | null
+          var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          // default: "system"
+          var dark =
+            stored === "dark" ||
+            ((!stored || stored === "system") && systemDark);
+          document.documentElement.classList.toggle("dark", dark);
+        } catch (e) {}
+      })();
+    </script>
+
+    <title>App</title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx"></script>
+    <!-- index.html -->
+<script>
+  (function () {
+    try {
+      var stored = localStorage.getItem("theme.mode"); // "dark" | "light" | "system" | null
+      var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var dark = stored === "dark" || ((!stored || stored === "system") && systemDark);
+      document.documentElement.classList.toggle("dark", dark);
+    } catch (e) {}
+  })();
+</script>
+
   </body>
 </html>

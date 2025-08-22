@@ -1,6 +1,4 @@
-// src/pages/RouterSetup.jsx
 import React from "react";
-import "./frontendStart.css";
 
 function PreBlock({ code = "", label = "" }) {
   const [copied, setCopied] = React.useState(false);
@@ -12,10 +10,24 @@ function PreBlock({ code = "", label = "" }) {
     } catch {}
   };
   return (
-    <div className="fs-pre">
-      {label ? <div className="fs-pre__label">{label}</div> : null}
-      <pre><code>{code}</code></pre>
-      <button className={`fs-btn fs-btn--ghost ${copied ? "fs-btn--ok" : ""}`} onClick={onCopy}>
+    <div className="relative rounded-xl border p-3 bg-white/80 dark:bg-slate-900/60 dark:border-slate-800">
+      {!!label && (
+        <div className="absolute -top-2 left-3 text-[10px] px-2 py-0.5 rounded-full bg-indigo-600 text-white shadow">
+          {label}
+        </div>
+      )}
+      <pre className="mt-2 bg-slate-900 text-slate-100 text-xs p-3 rounded-lg overflow-x-auto">
+        <code>{code}</code>
+      </pre>
+      <button
+        onClick={onCopy}
+        className={
+          "mt-2 px-3 py-1 rounded-md border text-xs " +
+          (copied
+            ? "bg-emerald-600 text-white border-emerald-600"
+            : "bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80")
+        }
+      >
         {copied ? "Copiado ✓" : "Copiar"}
       </button>
     </div>
@@ -25,13 +37,16 @@ function PreBlock({ code = "", label = "" }) {
 function Step({ title, emoji = "✅", children, defaultOpen = true }) {
   const [open, setOpen] = React.useState(defaultOpen);
   return (
-    <section className={`fs-card ${open ? "fs-card--open" : ""}`}>
-      <button className="fs-step__head" onClick={() => setOpen((o) => !o)}>
-        <span className="fs-step__emoji">{emoji}</span>
-        <h3 className="fs-step__title">{title}</h3>
-        <span className="fs-step__chev">{open ? "▾" : "▸"}</span>
+    <section className="rounded-2xl border dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full px-4 py-3 flex items-center gap-3 text-left border-b dark:border-slate-800"
+      >
+        <span className="text-xl">{emoji}</span>
+        <h3 className="font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
+        <span className="ml-auto text-xs text-slate-500">{open ? "▾" : "▸"}</span>
       </button>
-      {open && <div className="fs-step__body">{children}</div>}
+      {open && <div className="p-4 space-y-3">{children}</div>}
     </section>
   );
 }
@@ -96,48 +111,55 @@ app.get("*", (req, res) => {
 });`;
 
   return (
-    <div className="fs-page fs-pulse">
-      <header className="fs-hero">
-        <div className="fs-hero__badge">React Router</div>
-        <h2 className="fs-hero__title">Paso a paso: react-router-dom</h2>
-        <p className="fs-hero__desc">
-         
-        </p>
-        <div className="fs-hero__actions">
-          <a className="fs-btn fs-btn--ghost" href="/" rel="noreferrer">Volver al Inicio</a>
+    <div className="relative">
+      <header className="rounded-2xl border dark:border-slate-800 bg-gradient-to-br from-indigo-50/80 via-white/50 to-sky-50/80 dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-900/80 p-6 text-center mb-6">
+        <div className="inline-flex px-3 py-1 rounded-full text-xs bg-indigo-600 text-white shadow">React Router</div>
+        <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Paso a paso: react-router-dom
+        </h2>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">Navegación con rutas en React v6</p>
+        <div className="mt-4">
+          <a
+            className="px-3 py-2 rounded-md border bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+            href="/"
+          >
+            Volver al Inicio
+          </a>
         </div>
       </header>
 
-      <main className="fs-container">
+      <main className="grid gap-4">
         <Step title="1) Instalar librería" emoji="📦">
           <PreBlock label="Comando" code={codeInstall} />
         </Step>
 
         <Step title="2) Envolver la App" emoji="🧩">
-          <p className="fs-p">Tu <code>src/index.js</code> debe envolver <code>&lt;App /&gt;</code> con <code>BrowserRouter</code>:</p>
+          <p className="text-sm text-slate-700 dark:text-slate-200">
+            Tu <code>src/index.js</code> debe envolver <code>&lt;App /&gt;</code> con <code>BrowserRouter</code>:
+          </p>
           <PreBlock label="src/index.js" code={codeIndexWrap} />
         </Step>
 
         <Step title="3) Definir rutas" emoji="🗺️">
-          <p className="fs-p">Ejemplo mínimo de rutas en <code>src/App.js</code>:</p>
+          <p className="text-sm text-slate-700 dark:text-slate-200">Ejemplo mínimo en <code>src/App.js</code>:</p>
           <PreBlock label="src/App.js" code={codeAppRoutes} />
         </Step>
 
         <Step title="4) Navegar" emoji="🧭" defaultOpen={false}>
-          <div className="fs-grid">
+          <div className="grid md:grid-cols-2 gap-3">
             <PreBlock label="<Link />" code={codeLink} />
             <PreBlock label="useNavigate()" code={codeNav} />
           </div>
         </Step>
 
         <Step title="5) 404 y fallback en Express (opcional)" emoji="🚧" defaultOpen={false}>
-          <p className="fs-p">Para recargas directas en rutas (producción) con Express:</p>
+          <p className="text-sm text-slate-700 dark:text-slate-200">Para recargas directas en producción con Express:</p>
           <PreBlock label="app.js (extracto)" code={codeExpressSpa} />
         </Step>
       </main>
 
-      <footer className="fs-footer">
-        <span>Router v6 </span>
+      <footer className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+        Router v6
       </footer>
     </div>
   );

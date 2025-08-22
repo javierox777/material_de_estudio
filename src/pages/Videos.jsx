@@ -7,7 +7,7 @@ export default function Videos() {
       <div className="p-6 space-y-4">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Videos</h2>
         <p className="text-slate-600 dark:text-slate-300">
-          Aquí puedes incrustar tu playlist de YouTube o videos propios.
+          ponganle weno cauros
         </p>
 
         {/* Ejemplo: playlist embebida */}

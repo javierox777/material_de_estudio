@@ -1,7 +1,5 @@
-// src/pages/FrontendStart.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./frontendStart.css";
 
 function PreBlock({ code = "", label = "" }) {
   const [copied, setCopied] = React.useState(false);
@@ -13,10 +11,24 @@ function PreBlock({ code = "", label = "" }) {
     } catch {}
   };
   return (
-    <div className="fs-pre">
-      {label ? <div className="fs-pre__label">{label}</div> : null}
-      <pre><code>{code}</code></pre>
-      <button className={`fs-btn fs-btn--ghost ${copied ? "fs-btn--ok" : ""}`} onClick={onCopy}>
+    <div className="relative rounded-xl border p-3 bg-white/80 dark:bg-slate-900/60 dark:border-slate-800">
+      {!!label && (
+        <div className="absolute -top-2 left-3 text-[10px] px-2 py-0.5 rounded-full bg-indigo-600 text-white shadow">
+          {label}
+        </div>
+      )}
+      <pre className="mt-2 bg-slate-900 text-slate-100 text-xs p-3 rounded-lg overflow-x-auto">
+        <code>{code}</code>
+      </pre>
+      <button
+        onClick={onCopy}
+        className={
+          "mt-2 px-3 py-1 rounded-md border text-xs " +
+          (copied
+            ? "bg-emerald-600 text-white border-emerald-600"
+            : "bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80")
+        }
+      >
         {copied ? "Copiado ✓" : "Copiar"}
       </button>
     </div>
@@ -26,20 +38,23 @@ function PreBlock({ code = "", label = "" }) {
 function Step({ title, emoji = "✅", children, defaultOpen = true }) {
   const [open, setOpen] = React.useState(defaultOpen);
   return (
-    <section className={`fs-card ${open ? "fs-card--open" : ""}`}>
-      <button className="fs-step__head" onClick={() => setOpen((o) => !o)}>
-        <span className="fs-step__emoji">{emoji}</span>
-        <h3 className="fs-step__title">{title}</h3>
-        <span className="fs-step__chev">{open ? "▾" : "▸"}</span>
+    <section className="rounded-2xl border dark:border-slate-800 bg-white/70 dark:bg-slate-900/60 overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full px-4 py-3 flex items-center gap-3 text-left border-b dark:border-slate-800"
+      >
+        <span className="text-xl">{emoji}</span>
+        <h3 className="font-semibold text-slate-900 dark:text-slate-100">{title}</h3>
+        <span className="ml-auto text-xs text-slate-500">{open ? "▾" : "▸"}</span>
       </button>
-      {open && <div className="fs-step__body">{children}</div>}
+      {open && <div className="p-4 space-y-3">{children}</div>}
     </section>
   );
 }
 
 export default function FrontendStart() {
   const [pulse, setPulse] = React.useState(true);
-  const navigate = useNavigate(); // ← para redirigir al otro componente
+  const navigate = useNavigate();
 
   const codeIndexJs = `// src/index.js
 import React from "react";
@@ -61,7 +76,6 @@ export default function App() {
   return (
     <div style={{ padding: 24 }}>
       <h1>Hola React</h1>
-      <p></p>
     </div>
   );
 }`;
@@ -90,30 +104,42 @@ git push -u origin main`;
 }`;
 
   return (
-    <div className={`fs-page ${pulse ? "fs-pulse" : ""}`}>
-      <header className="fs-hero">
-        <div className="fs-hero__badge">React + Railway</div>
-        <h2 className="fs-hero__title">Crear un proyecto React y desplegar en Railway</h2>
-        <p className="fs-hero__desc">
-          ✨
-        </p>
-        <div className="fs-hero__actions">
-          <button className="fs-btn" onClick={() => setPulse((p) => !p)}>
+    <div className={"relative min-h-[60vh] " + (pulse ? "animate-[pulse_8s_ease-in-out_infinite]" : "")}>
+      {/* hero */}
+      <header className="rounded-2xl border dark:border-slate-800 bg-gradient-to-br from-indigo-50/80 via-white/50 to-sky-50/80 dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-900/80 p-6 text-center mb-6">
+        <div className="inline-flex px-3 py-1 rounded-full text-xs bg-indigo-600 text-white shadow">React + Railway</div>
+        <h2 className="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Crear un proyecto React y desplegar en Railway
+        </h2>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">✨ Guía rápida paso a paso</p>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <button
+            className="px-3 py-2 rounded-md border bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+            onClick={() => setPulse((p) => !p)}
+          >
             {pulse ? "Pausar fondo" : "Reanudar fondo"}
           </button>
-          <a className="fs-btn fs-btn--ghost" href="https://railway.app/dashboard" target="_blank" rel="noreferrer">
+          <a
+            className="px-3 py-2 rounded-md border bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+            href="https://railway.app/dashboard"
+            target="_blank"
+            rel="noreferrer"
+          >
             Abrir Railway
           </a>
-          {/* Botón que te lleva a la guía de React Router dentro de la app */}
-          <button className="fs-btn fs-btn--ghost" onClick={() => navigate("/router-setup")}>
+          <button
+            className="px-3 py-2 rounded-md border bg-white/80 dark:bg-slate-800/70 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80"
+            onClick={() => navigate("/router-setup")}
+          >
             Guía: React Router
           </button>
         </div>
       </header>
 
-      <main className="fs-container">
+      {/* contenido */}
+      <main className="grid gap-4">
         <Step title="Requisitos" emoji="🧰">
-          <ul className="fs-ul">
+          <ul className="list-disc pl-5 text-sm text-slate-700 dark:text-slate-200 space-y-1">
             <li>Node.js 18 o 20</li>
             <li>Git + GitHub</li>
           </ul>
@@ -122,22 +148,22 @@ git push -u origin main`;
 
         <Step title="Crear proyecto (Create React App)" emoji="⚡">
           <PreBlock label="Comandos" code={`npx create-react-app my-app\ncd my-app\nnpm start`} />
-          <p className="fs-note">Abre <code>http://localhost:3000</code>.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Abre <code>http://localhost:3000</code>.</p>
         </Step>
 
         <Step title="Punto de entrada" emoji="🧩">
-          <p className="fs-p">Estructura inicial típica en CRA:</p>
+          <p className="text-sm text-slate-700 dark:text-slate-200">Estructura inicial típica en CRA:</p>
           <PreBlock label="src/index.js" code={codeIndexJs} />
         </Step>
 
         <Step title="Componente base" emoji="🧱">
-          <p className="fs-p">Un <code>App.js</code> mínimo para partir sin errores:</p>
+          <p className="text-sm text-slate-700 dark:text-slate-200">Un <code>App.js</code> mínimo para partir sin errores:</p>
           <PreBlock label="src/App.js" code={codeAppJs} />
         </Step>
 
         <Step title="Variables de entorno (opcional)" emoji="🔑">
-          <p className="fs-p">En CRA deben comenzar con <code>REACT_APP_</code>.</p>
-          <div className="fs-grid">
+          <p className="text-sm text-slate-700 dark:text-slate-200">En CRA deben comenzar con <code>REACT_APP_</code>.</p>
+          <div className="grid md:grid-cols-2 gap-3">
             <PreBlock label=".env" code={codeEnv} />
             <PreBlock label="Uso" code={codeUseEnv} />
           </div>
@@ -145,7 +171,7 @@ git push -u origin main`;
 
         <Step title="Build de producción" emoji="🏗️">
           <PreBlock label="Compilar" code={codeBuild} />
-          <p className="fs-note">Se genera <code>build/</code>.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Se genera <code>build/</code>.</p>
         </Step>
 
         <Step title="Subir a GitHub" emoji="🚀">
@@ -153,26 +179,33 @@ git push -u origin main`;
         </Step>
 
         <Step title="Despliegue en Railway" emoji="🛤️">
-          <ol className="fs-ol">
+          <ol className="list-decimal pl-5 text-sm text-slate-700 dark:text-slate-200 space-y-1">
             <li>Importa tu repo desde GitHub en Railway.</li>
-            <li>En el servicio → <b>Settings</b>:
-              <ul className="fs-ul">
-                <li><b>Install Command</b>: <code>npm ci</code> (o <code>npm install</code>)</li>
-                <li><b>Build Command</b>: <code>npm run build</code></li>
-                <li><b>Start Command</b>: <code>{codeStartCmd}</code></li>
+            <li>
+              En el servicio → <b>Settings</b>:
+              <ul className="list-disc pl-5">
+                <li>
+                  <b>Install Command</b>: <code>npm ci</code> (o <code>npm install</code>)
+                </li>
+                <li>
+                  <b>Build Command</b>: <code>npm run build</code>
+                </li>
+                <li>
+                  <b>Start Command</b>: <code>{codeStartCmd}</code>
+                </li>
               </ul>
             </li>
             <li>Activa <b>Public Networking</b> y usa <b>Open App</b> para tu URL.</li>
           </ol>
-          <div className="fs-grid">
+          <div className="grid md:grid-cols-2 gap-3">
             <PreBlock label="Start Command (rápido)" code={codeStartCmd} />
             <PreBlock label='Scripts en package.json (con "serve")' code={codePkgScripts} />
           </div>
         </Step>
       </main>
 
-      <footer className="fs-footer">
-        <span>Hecho con ❤️ — React </span>
+      <footer className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
+        Hecho con ❤️ — React
       </footer>
     </div>
   );
