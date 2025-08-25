@@ -22,16 +22,16 @@ export default function Videos() {
 
         {/* Ejemplos adicionales */}
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="aspect-video rounded-xl overflow-hidden border dark:border-slate-800">
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/watch?v=UokZMBmnUGM"
-              title="Video 1"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              loading="lazy"
-            ></iframe>
-          </div>
+        <div className="aspect-video rounded-xl overflow-hidden border dark:border-slate-800">
+  <iframe
+    className="w-full h-full"
+    src="https://www.youtube.com/embed/5EOxUCLraX8"
+    title="Video 1"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowFullScreen
+    loading="lazy"
+  ></iframe>
+</div>
           <div className="aspect-video rounded-xl overflow-hidden border dark:border-slate-800">
             <iframe
               className="w-full h-full"

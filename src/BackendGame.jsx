@@ -22,6 +22,27 @@ import ThemeToggleButton from "./components/ThemeToggleButton.jsx";
  * + Caballeros emergentes por bloque + control para girar el mundo
  */
 
+
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = React.useState(
+    typeof window !== "undefined" ? window.innerWidth <= breakpoint : false
+  );
+
+  React.useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const onChange = (e) => setIsMobile(e.matches);
+    setIsMobile(mq.matches);
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else mq.addListener(onChange);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", onChange);
+      else mq.removeListener(onChange);
+    };
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 /* ---------------------- WORLD DATA (usa tu estructura real) ---------------------- */
 const worldData = [
   {
@@ -692,9 +713,11 @@ export default function BackendGame() {
   const [selected, setSelected] = useState(worldData[0]);
   const [progress, setProgress] = useState(0);
   const [dark, setDark] = useState(false);
-  const [warriors, setWarriors] = useState({}); // { id: { variant, spawn } }
+  const [warriors, setWarriors] = useState({});
   const [rotationY, setRotationY] = useState(0);
   const [camZoom, setCamZoom] = useState(1.45);
+  const isMobile = useIsMobile(); // 👈 NUEVO
+
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -779,16 +802,29 @@ export default function BackendGame() {
               </div>
             </div>
             <div className="p-4">
-              <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 h-[560px] md:h-[680px] lg:h-[780px]">
-                <World3D
-                  onSelect={onSelect}
-                  selectedId={selected?.id}
-                  warriors={warriors}
-                  rotationY={rotationY}
-                  zoom={camZoom}
-                />
-              </div>
-            </div>
+  <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 h-[560px] md:h-[680px] lg:h-[780px]">
+    {isMobile ? (
+      <div className="w-full h-full flex items-center justify-center text-center p-6 bg-gradient-to-br from-indigo-50 to-sky-50 dark:from-slate-900 dark:to-slate-800">
+        <div>
+          <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Vista simplificada</div>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">
+            El efecto tridimensional se desactiva en móviles para mejorar el rendimiento.
+            Abre esta página en un computador para explorar el entorno 3D.
+          </p>
+        </div>
+      </div>
+    ) : (
+      <World3D
+        onSelect={onSelect}
+        selectedId={selected?.id}
+        warriors={warriors}
+        rotationY={rotationY}
+        zoom={camZoom}
+      />
+    )}
+  </div>
+</div>
+
           </div>
 
           {/* Panel lateral */}
