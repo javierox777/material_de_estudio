@@ -22,6 +22,72 @@ import ThemeToggleButton from "./components/ThemeToggleButton.jsx";
  * + Caballeros emergentes por bloque + control para girar el mundo
  */
 
+/* ---------------------- Selector móvil (botones) ---------------------- */
+function MobileButtons({ selectedId, onSelect }) {
+  // Orden explícito de botones
+  const order = ["appjs", "indexjs", "dbjs", "routes", "controllers", "models", "root"];
+  const items = order
+    .map((id) => worldData.find((w) => w.id === id))
+    .filter(Boolean);
+
+  const iconFor = (id) => {
+    if (id === "appjs") return "🧩";
+    if (id === "indexjs") return "▶️";
+    if (id === "dbjs") return "🗄️";
+    if (id === "routes") return "🛣️";
+    if (id === "controllers") return "🎯";
+    if (id === "models") return "📦";
+    if (id === "root") return "🌍";
+    return "📁";
+  };
+
+  return (
+    <div className="w-full h-full overflow-auto bg-gradient-to-br from-indigo-50 to-sky-50 dark:from-slate-900 dark:to-slate-800">
+      <div className="p-4 space-y-3">
+        <div className="text-center">
+          <div className="text-xl font-bold text-slate-900 dark:text-white">Constructor MERN</div>
+          <p className="text-slate-600 dark:text-slate-300 text-sm">Toca un botón para ver el detalle y el código.</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          {items.map((item) => {
+            const active = item.id === selectedId;
+            return (
+              <button
+                key={item.id}
+                onClick={() => onSelect(item)}
+                className={[
+                  "group relative flex items-center gap-2 px-3 py-3 rounded-xl border shadow-sm text-left",
+                  "transition-colors",
+                  active
+                    ? "bg-indigo-600 text-white border-indigo-600"
+                    : "bg-white/80 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 hover:bg-white dark:hover:bg-slate-900"
+                ].join(" ")}
+              >
+                <span className="text-lg">{iconFor(item.id)}</span>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold">{item.name}</div>
+                  <div className="text-xs opacity-80 line-clamp-2">{item.description}</div>
+                </div>
+                {active && (
+                  <span className="absolute -top-2 -right-2 text-[10px] px-2 py-0.5 rounded-full bg-white/90 text-indigo-700 border border-indigo-200">
+                    seleccionado
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="text-[11px] text-slate-600 dark:text-slate-400 text-center pt-2">
+          Consejo: puedes copiar el código desde el panel lateral.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = React.useState(
@@ -744,9 +810,9 @@ export default function BackendGame() {
       {/* Header/HUD */}
       <header className="sticky top-0 z-10 backdrop-blur-md bg-white/60 dark:bg-slate-900/60 border-b border-slate-200/60 dark:border-slate-800">
         <div className="max-w-7xl mx-auto p-3 flex items-center justify-between">
-        <h1 className="hidden md:block md:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-  Server Builder • Express + MongoDB
-</h1>
+          <h1 className="hidden md:block md:text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            Server Builder • Express + MongoDB
+          </h1>
           <div className="flex items-center gap-3 text-sm">
             <span className="text-slate-600 dark:text-slate-300">Progreso</span>
             <div className="w-36 bg-slate-200/70 dark:bg-slate-800 rounded-full h-2 overflow-hidden">
@@ -804,15 +870,7 @@ export default function BackendGame() {
             <div className="p-4">
   <div className="relative rounded-xl overflow-hidden ring-1 ring-slate-200 dark:ring-slate-800 h-[560px] md:h-[680px] lg:h-[780px]">
     {isMobile ? (
-      <div className="w-full h-full flex items-center justify-center text-center p-6 bg-gradient-to-br from-indigo-50 to-sky-50 dark:from-slate-900 dark:to-slate-800">
-        <div>
-          <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Vista simplificada</div>
-          <p className="text-slate-600 dark:text-slate-300 text-sm">
-            El efecto tridimensional se desactiva en móviles para mejorar el rendimiento.
-            Abre esta página en un computador para explorar el entorno 3D.
-          </p>
-        </div>
-      </div>
+      <MobileButtons selectedId={selected?.id} onSelect={onSelect} />
     ) : (
       <World3D
         onSelect={onSelect}
@@ -825,6 +883,7 @@ export default function BackendGame() {
   </div>
 </div>
 
+
           </div>
 
           {/* Panel lateral */}
@@ -833,9 +892,8 @@ export default function BackendGame() {
               <div className="p-5 border-b border-slate-200/80 dark:border-slate-800">
                 <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Elemento seleccionado</h3>
                 <div
-                  className={`inline-flex items-center gap-2 px-3 py-1 mt-2 rounded-full text-white text-xs ${
-                    colorByType[selected?.type] || "bg-slate-500"
-                  }`}
+                  className={`inline-flex items-center gap-2 px-3 py-1 mt-2 rounded-full text-white text-xs ${colorByType[selected?.type] || "bg-slate-500"
+                    }`}
                 >
                   {selected?.type?.toUpperCase()} — {selected?.name}
                 </div>
